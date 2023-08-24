@@ -1,7 +1,7 @@
 ﻿using Quartz;
 using Serilog;
 
-namespace QuartzDotNetSqLite.Jobs;
+namespace WebApi.Jobs;
 
 public class DailyTimeScheduleJob : IJob
 {

@@ -1,7 +1,7 @@
 ﻿using Quartz;
-using QuartzDotNetSqLite.Jobs;
+using WebApi.Jobs;
 
-namespace QuartzDotNetSqLite;
+namespace WebApi.Extensions;
 
 public static class JobExtensions
 {

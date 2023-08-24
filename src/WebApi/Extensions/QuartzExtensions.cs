@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Quartz;
 
-namespace QuartzDotNetSqLite;
+namespace WebApi.Extensions;
 
 public static class QuartzExtensions
 {

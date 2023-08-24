@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Quartz;
+using WebApi.Extensions;
 
-namespace QuartzDotNetSqLite.Controllers
+namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
