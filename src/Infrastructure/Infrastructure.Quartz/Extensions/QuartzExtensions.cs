@@ -1,7 +1,9 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System.Reflection;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
-namespace WebApi.Extensions;
+namespace Infrastructure.Quartz.Extensions;
 
 public static class QuartzExtensions
 {
@@ -33,7 +35,11 @@ public static class QuartzExtensions
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = File.ReadAllText(@"SQLiteMigration\tables_sqlite.sql");
+
+        var assemblyPath = Assembly.GetExecutingAssembly().Location;
+        var assemblyDirectory = Path.GetDirectoryName(assemblyPath);
+        var textPath = Path.Combine(assemblyDirectory!, "Data", "tables_sqlite.sql");
+        command.CommandText = File.ReadAllText(textPath);
         command.ExecuteScalarAsync();
     }
 }

@@ -1,5 +1,7 @@
+using Application;
+using Infrastructure.Dkron;
+using Infrastructure.Quartz.Extensions;
 using Serilog;
-using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddQuartzService();
+builder.Services.AddScoped<IDkronService, DkronService>();
+builder.Services.AddHttpClient<IDkronService, DkronService>(c => c.BaseAddress = new Uri("http://localhost:8080/"));
+
+builder.Services.AddScoped<ISqlDataManager, SqlDataManager>();
 
 var logConfiguration = new LoggerConfiguration()//Para exibir o console no terminal 
     .WriteTo.Debug()

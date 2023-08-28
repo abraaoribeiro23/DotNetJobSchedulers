@@ -1,7 +1,7 @@
-﻿using Quartz;
-using WebApi.Jobs;
+﻿using Infrastructure.Quartz.Jobs;
+using Quartz;
 
-namespace WebApi.Extensions;
+namespace Infrastructure.Quartz.Extensions;
 
 public static class JobExtensions
 {
@@ -13,7 +13,7 @@ public static class JobExtensions
         var groupName = jobName + GroupPrefix;
         var triggerName = jobName + TriggerPrefix;
 
-        var job = JobBuilder.Create<SingleScheduleJob>()
+        var job = JobBuilder.Create<SampleScheduleJob>()
             .WithIdentity(jobName, groupName)
             .UsingJobData("cmd", command)
             .Build();
@@ -30,7 +30,7 @@ public static class JobExtensions
         var groupName = jobName + GroupPrefix;
         var triggerName = jobName + TriggerPrefix;
 
-        var job = JobBuilder.Create<RepeatScheduleJob>()
+        var job = JobBuilder.Create<SampleScheduleJob>()
             .WithIdentity(jobName, groupName)
             .Build();
 
@@ -50,7 +50,7 @@ public static class JobExtensions
     {
         var groupName = jobName + GroupPrefix;
 
-        var job = JobBuilder.Create<DailyTimeScheduleJob>()
+        var job = JobBuilder.Create<SampleScheduleJob>()
             .WithIdentity(jobName, groupName)
             .Build();
         var trigger = TriggerBuilder.Create()
@@ -70,7 +70,7 @@ public static class JobExtensions
         var groupName = jobName + GroupPrefix;
         var triggerName = jobName + TriggerPrefix;
 
-        var job = JobBuilder.Create<CronScheduleJob>()
+        var job = JobBuilder.Create<SampleScheduleJob>()
             .WithIdentity(jobName, groupName)
             .Build();
 

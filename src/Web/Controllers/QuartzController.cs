@@ -1,18 +1,18 @@
+using Infrastructure.Quartz.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Quartz;
-using WebApi.Extensions;
 
 namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class JobController : ControllerBase
+    public class QuartzController : ControllerBase
     {
-        private readonly ILogger<JobController> _logger;
+        private readonly ILogger<QuartzController> _logger;
         private readonly ISchedulerFactory _schedulerFactory;
 
-        public JobController(ILogger<JobController> logger, ISchedulerFactory schedulerFactory)
+        public QuartzController(ILogger<QuartzController> logger, ISchedulerFactory schedulerFactory)
         {
             _logger = logger;
             _schedulerFactory = schedulerFactory;
