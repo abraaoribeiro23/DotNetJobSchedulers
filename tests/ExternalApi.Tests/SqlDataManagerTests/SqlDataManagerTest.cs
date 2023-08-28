@@ -3,7 +3,7 @@ using Infrastructure.Dkron.Common.Enums.Legacy;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Infrastructure.Tests.SqlDataManager;
+namespace Infrastructure.Tests.SqlDataManagerTests;
 
 public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
 {
@@ -14,8 +14,9 @@ public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
         _sqlDataManager = fixture.Sp.GetRequiredService<ISqlDataManager>();
     }
 
-    [Fact]
-    public async Task Test()
+    [Theory]
+    [ClassData(typeof(SqlDataManagerTestData))]
+    public async Task DynamicTest(SqlServerJobFrequencyTypes freqType, SqlServerJobSubDayFrequencyTypes subDayIntervalType, bool isValid)
     {
         const string accessKey = "access-key";
         const string userGroupId = "user-group";
@@ -24,14 +25,19 @@ public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
         const string scheduleJobName = "schedule-job-name";
         var dataImportScheduleId = Guid.NewGuid();
         var startDate = DateTime.Now;
-        const SqlServerJobFrequencyTypes freqType = SqlServerJobFrequencyTypes.Daily;
         const int freqInterval = 1;
-        const SqlServerJobSubDayFrequencyTypes subDayIntervalType = SqlServerJobSubDayFrequencyTypes.Hours;
 
         var result = await _sqlDataManager.CreateJob(accessKey, userGroupId, orgDbName, projectId,
             scheduleJobName, dataImportScheduleId, startDate, freqType, freqInterval, subDayIntervalType);
 
-        Assert.NotNull(result);
-        Assert.NotNull(result.Name);
+        if (isValid)
+        {
+            Assert.NotNull(result);
+            Assert.NotNull(result.Name);
+        }
+        else
+        {
+            Assert.Null(result);
+        }
     }
 }

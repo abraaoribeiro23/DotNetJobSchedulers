@@ -1,9 +1,9 @@
 ﻿using Application;
 using Infrastructure.Dkron;
-using Serilog;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
-namespace Infrastructure.Tests.SqlDataManager;
+namespace Infrastructure.Tests.SqlDataManagerTests;
 
 public class ServiceProviderFixture
 {
