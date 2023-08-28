@@ -3,7 +3,7 @@ using Infrastructure.Dkron.Common.Enums.Legacy;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Infrastructure.Tests;
+namespace Infrastructure.Tests.SqlDataManager;
 
 public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
 {

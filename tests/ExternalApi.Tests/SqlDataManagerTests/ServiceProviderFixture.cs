@@ -3,7 +3,7 @@ using Infrastructure.Dkron;
 using Serilog;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Tests;
+namespace Infrastructure.Tests.SqlDataManager;
 
 public class ServiceProviderFixture
 {

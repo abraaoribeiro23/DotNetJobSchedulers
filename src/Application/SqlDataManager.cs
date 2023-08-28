@@ -36,13 +36,14 @@ namespace Application
 
                 jobName += "_RunOnce";
 
-                var jobExists = await _dkronService.DoesJobExist(jobName);
+                var jobSaved = await _dkronService.GetJobByName(jobName);
+                var jobExists = jobSaved != null;
                 if (_logger.IsEnabled(LogLevel.Debug))
-                    _logger.LogDebug("The sql job {0} exists or not: {1}", jobName, jobExists);
+                    _logger.LogDebug("The job {0} exists or not: {1}", jobName, jobExists);
 
                 if (jobExists)
                 {
-                    await _dkronService.DeleteJob(jobName);
+                    await _dkronService.DeleteJobByName(jobName);
                 }
 
                 var exeCmd = GetExeCommand(accessKey, orgDbName, projectId, userGroupId, dataImportScheduleId);

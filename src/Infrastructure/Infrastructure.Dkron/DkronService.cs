@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using Infrastructure.Dkron.Common.Exceptions;
 using Infrastructure.Dkron.Contracts;
 
@@ -11,6 +12,24 @@ public class DkronService : IDkronService
     public DkronService(HttpClient httpClient)
     {
         _httpClient = httpClient;
+    }
+
+    public async Task<JobResponseDto?> GetJobByName(string jobName)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"v1/jobs/{jobName}");
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<JobResponseDto>();
+        }
+        catch (HttpRequestException e) when (e.StatusCode==HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+        catch (Exception e)
+        {
+            throw new DkronServiceException(e);
+        }
     }
 
     public async Task<JobResponseDto?> CreateJob(JobPayloadDto dto)
@@ -27,13 +46,16 @@ public class DkronService : IDkronService
         }
     }
 
-    public Task<bool> DoesJobExist(string jobName)
+    public async Task DeleteJobByName(string jobName)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteJob(string jobName)
-    {
-        throw new NotImplementedException();
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"v1/jobs/{jobName}");
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception e)
+        {
+            throw new DkronServiceException(e);
+        }
     }
 }

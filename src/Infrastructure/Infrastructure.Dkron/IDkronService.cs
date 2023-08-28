@@ -4,7 +4,7 @@ namespace Infrastructure.Dkron;
 
 public interface IDkronService
 {
+    Task<JobResponseDto?> GetJobByName(string jobName);
     Task<JobResponseDto?> CreateJob(JobPayloadDto dto);
-    Task<bool> DoesJobExist(string jobName);
-    Task DeleteJob(string jobName);
+    Task DeleteJobByName(string jobName);
 }
