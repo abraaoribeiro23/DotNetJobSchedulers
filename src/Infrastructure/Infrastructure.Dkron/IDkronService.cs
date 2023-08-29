@@ -1,10 +1,10 @@
-﻿using Infrastructure.Dkron.Contracts;
+﻿using Infrastructure.Dkron.Contracts.Base;
 
 namespace Infrastructure.Dkron;
 
 public interface IDkronService
 {
-    Task<JobResponseDto?> GetJobByName(string jobName);
-    Task<JobResponseDto?> CreateJob(JobPayloadDto dto);
+    Task<DkronJobResponse?> GetJobByName(string jobName);
+    Task<DkronJobResponse?> CreateJob<T>(T dto) where T : DkronJobPayload;
     Task DeleteJobByName(string jobName);
 }

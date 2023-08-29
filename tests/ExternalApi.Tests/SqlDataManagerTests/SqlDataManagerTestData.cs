@@ -10,7 +10,8 @@ public class SqlDataManagerTestData : IEnumerable<object[]>
         new object[] { SqlServerJobFrequencyTypes.Once, SqlServerJobSubDayFrequencyTypes.SpecifiedTime },
         new object[] { SqlServerJobFrequencyTypes.Daily, SqlServerJobSubDayFrequencyTypes.SpecifiedTime },
         new object[] { SqlServerJobFrequencyTypes.Weekly, SqlServerJobSubDayFrequencyTypes.SpecifiedTime },
-        new object[] { SqlServerJobFrequencyTypes.Monthly, SqlServerJobSubDayFrequencyTypes.SpecifiedTime }
+        new object[] { SqlServerJobFrequencyTypes.Monthly, SqlServerJobSubDayFrequencyTypes.SpecifiedTime },
+        new object[] { SqlServerJobFrequencyTypes.Unknown, SqlServerJobSubDayFrequencyTypes.SpecifiedTime },
     };
 
     public IEnumerator<object[]> GetEnumerator()

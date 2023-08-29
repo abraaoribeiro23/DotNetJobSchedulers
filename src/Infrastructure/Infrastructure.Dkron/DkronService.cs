@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using Infrastructure.Dkron.Common.Exceptions;
-using Infrastructure.Dkron.Contracts;
+using Infrastructure.Dkron.Contracts.Base;
 
 namespace Infrastructure.Dkron;
 
@@ -14,36 +14,53 @@ public class DkronService : IDkronService
         _httpClient = httpClient;
     }
 
-    public async Task<JobResponseDto?> GetJobByName(string jobName)
+    public async Task<DkronJobResponse?> GetJobByName(string jobName)
     {
         try
         {
             var response = await _httpClient.GetAsync($"v1/jobs/{jobName}");
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<JobResponseDto>();
+            return await response.Content.ReadFromJsonAsync<DkronJobResponse>();
         }
-        catch (HttpRequestException e) when (e.StatusCode==HttpStatusCode.NotFound)
+        catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.NotFound)
         {
             return null;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new DkronServiceException(e);
+            throw new DkronServiceException($"Error Getting Job Schedule {jobName}", ex);
         }
     }
 
-    public async Task<JobResponseDto?> CreateJob(JobPayloadDto dto)
+    public async Task<DkronJobResponse?> CreateJob<T>(T dto) where T : DkronJobPayload
     {
         try
         {
             var response = await _httpClient.PostAsJsonAsync("v1/jobs", dto);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<JobResponseDto>();
+            return await HandleCreateJobHttpResponse(response);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new DkronServiceException(e);
+            throw new DkronServiceException($"Error Creating Job Schedule {dto.Name}", ex);
         }
+    }
+
+    private static async Task<DkronJobResponse?> HandleCreateJobHttpResponse(HttpResponseMessage response)
+    {
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<DkronJobResponse>();
+        }
+
+        if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var errorMsg = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException(errorMsg);
+        }
+
+        response.EnsureSuccessStatusCode();
+
+        return null;
     }
 
     public async Task DeleteJobByName(string jobName)
@@ -53,9 +70,9 @@ public class DkronService : IDkronService
             var response = await _httpClient.DeleteAsync($"v1/jobs/{jobName}");
             response.EnsureSuccessStatusCode();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw new DkronServiceException(e);
+            throw new DkronServiceException($"Error Deleting Job Schedule {jobName}", ex);
         }
     }
 }

@@ -21,14 +21,22 @@ public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
         const string accessKey = "access-key";
         const string userGroupId = "user-group";
         const string orgDbName = "org-db-name";
+        const string orgConnString = "org-conn-string";
         const int projectId = 1;
-        const string scheduleJobName = "schedule-job-name";
+        var scheduleJobName = $"job-name-{Guid.NewGuid()}";
         var dataImportScheduleId = Guid.NewGuid();
-        var startDate = DateTime.Now;
-        const int freqInterval = 1;
+        var startDate = DateTime.UtcNow;
+        var endDate = DateTime.UtcNow.AddDays(1);
+        var activeStartTime = DateTime.UtcNow.AddSeconds(10);
+        var activeEndTime = DateTime.UtcNow.AddHours(1);
+        const int freqInterval = 0;
+        var subDayInterval = 0;
+        var freqRelativeInterval = 0;
+        var freqRecurrenceFactor = 0;
 
-        var result = await _sqlDataManager.CreateJob(accessKey, userGroupId, orgDbName, projectId,
-            scheduleJobName, dataImportScheduleId, startDate, freqType, freqInterval, subDayIntervalType);
+        var result = await _sqlDataManager.CreateJob(accessKey, userGroupId, orgDbName, orgConnString, projectId,
+            scheduleJobName, dataImportScheduleId, startDate, endDate,activeStartTime,activeEndTime, freqType, freqInterval,
+            subDayIntervalType, subDayInterval, freqRelativeInterval, freqRecurrenceFactor);
 
         if (isValid)
         {

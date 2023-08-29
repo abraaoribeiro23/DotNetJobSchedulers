@@ -1,5 +1,5 @@
 using Infrastructure.Dkron;
-using Infrastructure.Dkron.Contracts;
+using Infrastructure.Dkron.Contracts.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         }
         
         [HttpPost("add-simple")]
-        public async Task<IActionResult> AddSingleScheduleJob([FromBody] JobPayloadDto dto)
+        public async Task<IActionResult> AddSingleScheduleJob([FromBody] DkronJobPayload dto)
         {
             _logger.LogInformation("DkronController::AddSingleScheduleJob([...])");
             var result = await _dkronService.CreateJob(dto);

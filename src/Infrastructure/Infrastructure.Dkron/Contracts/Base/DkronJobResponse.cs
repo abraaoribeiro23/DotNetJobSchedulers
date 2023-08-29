@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Infrastructure.Dkron.Contracts;
+namespace Infrastructure.Dkron.Contracts.Base;
 
-public class JobResponseDto
+public class DkronJobResponse
 {
     public string? Name { get; set; }
     [JsonPropertyName("display_name")]
@@ -21,7 +21,7 @@ public class JobResponseDto
     [JsonPropertyName("last_error")]
     public DateTime? LastError { get; set; }
     public bool Disabled { get; set; }
-    public Dictionary<string, string> Tags { get; set; } = new ();
+    public Dictionary<string, string> Tags { get; set; } = new();
     public Dictionary<string, string> Metadata { get; set; } = new();
     public int Retries { get; set; }
     [JsonPropertyName("parent_job")]

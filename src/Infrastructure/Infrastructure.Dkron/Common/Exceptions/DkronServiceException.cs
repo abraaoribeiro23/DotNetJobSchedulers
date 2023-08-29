@@ -6,4 +6,8 @@ public class DkronServiceException : Exception
         : base("Error executing DkronService.", ex)
     {
     }
+    public DkronServiceException(string msg, Exception? ex = null)
+        : base(msg, ex)
+    {
+    }
 }
