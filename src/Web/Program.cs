@@ -1,6 +1,8 @@
-using Application;
+using Application.Dkron;
+using CrystalQuartz.AspNetCore;
 using Infrastructure.Dkron;
-using Infrastructure.Quartz.Extensions;
+using Infrastructure.Quartz;
+using Quartz;
 using Serilog;
 using Serilog.Events;
 
@@ -29,6 +31,9 @@ var logConfiguration = new LoggerConfiguration()//Para exibir o console no termi
 Log.Logger = logConfiguration.CreateLogger();
 
 var app = builder.Build();
+
+var factory = app.Services.GetRequiredService<ISchedulerFactory>();
+app.UseCrystalQuartz(() => factory.GetScheduler());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

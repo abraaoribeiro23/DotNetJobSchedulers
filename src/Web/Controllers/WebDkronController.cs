@@ -6,12 +6,12 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class DkronController : ControllerBase
+    public class WebDkronController : ControllerBase
     {
-        private readonly ILogger<DkronController> _logger;
+        private readonly ILogger<WebDkronController> _logger;
         private readonly IDkronService _dkronService;
 
-        public DkronController(ILogger<DkronController> logger, IDkronService dkronService)
+        public WebDkronController(ILogger<WebDkronController> logger, IDkronService dkronService)
         {
             _logger = logger;
             _dkronService = dkronService;

@@ -1,9 +1,9 @@
-﻿using Application;
+﻿using Application.Dkron;
 using Infrastructure.Dkron.Common.Enums.Legacy;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace Infrastructure.Tests.SqlDataManagerTests;
+namespace Infrastructure.Dkron.Tests;
 
 public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
 {
@@ -16,7 +16,7 @@ public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
 
     [Theory]
     [ClassData(typeof(SqlDataManagerTestData))]
-    public async Task DynamicTest(SqlServerJobFrequencyTypes freqType, SqlServerJobSubDayFrequencyTypes subDayIntervalType, bool isValid)
+    public async Task DynamicTest(SqlServerJobFrequencyTypes freqType, SqlServerJobSubDayFrequencyTypes subDayIntervalType)
     {
         const string accessKey = "access-key";
         const string userGroupId = "user-group";
@@ -29,23 +29,16 @@ public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
         var endDate = DateTime.UtcNow.AddDays(1);
         var activeStartTime = DateTime.UtcNow.AddSeconds(10);
         var activeEndTime = DateTime.UtcNow.AddHours(1);
-        const int freqInterval = 0;
-        var subDayInterval = 0;
-        var freqRelativeInterval = 0;
-        var freqRecurrenceFactor = 0;
+        const int freqInterval = 2;
+        const int subDayInterval = 3;
+        const int freqRelativeInterval = 0;
+        const int freqRecurrenceFactor = 0;
 
         var result = await _sqlDataManager.CreateJob(accessKey, userGroupId, orgDbName, orgConnString, projectId,
-            scheduleJobName, dataImportScheduleId, startDate, endDate,activeStartTime,activeEndTime, freqType, freqInterval,
+            scheduleJobName, dataImportScheduleId, startDate, endDate, activeStartTime, activeEndTime, freqType, freqInterval,
             subDayIntervalType, subDayInterval, freqRelativeInterval, freqRecurrenceFactor);
 
-        if (isValid)
-        {
-            Assert.NotNull(result);
-            Assert.NotNull(result.Name);
-        }
-        else
-        {
-            Assert.Null(result);
-        }
+        Assert.NotNull(result);
+        Assert.NotNull(result.Name);
     }
 }

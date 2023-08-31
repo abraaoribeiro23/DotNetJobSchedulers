@@ -5,7 +5,7 @@ using Infrastructure.Dkron.Contracts.Base;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Application
+namespace Application.Dkron
 {
     public class SqlDataManager : ISqlDataManager
     {
@@ -19,6 +19,7 @@ namespace Application
             _dkronService = dkronService;
             _logger = logger;
         }
+
         public async Task<DkronJobResponse?> CreateJob(string accessKey, string userGroupId,
             string orgDbName, string orgConnString, int projectId, string scheduleJobName, Guid dataImportScheduleId,
             DateTime startDate, DateTime endDate, DateTime activeStartTime, DateTime activeEndTime,
@@ -38,13 +39,13 @@ namespace Application
                     await _dkronService.DeleteJobByName(jobName);
                 }
 
-                var body = new {accessKey, orgDbName, projectId, userGroupId, dataImportScheduleId};
+                var body = new { accessKey, orgDbName, projectId, userGroupId, dataImportScheduleId };
 
                 var request = new DkronHttpExecutorConfigDto
                 {
                     Method = "POST",
                     Url = "",
-                    Headers = "",
+                    Headers = "[\"Content-Type: application/json\"]",
                     Body = JsonConvert.SerializeObject(body),
                     Timeout = "100",
                     ExpectCode = "200",
@@ -77,14 +78,9 @@ namespace Application
         }
 
         public static DkronHttpJobPayloadDto BuildPayload(string jobName, SqlServerJobFrequencyTypes freqType, int freqInterval, DateTime startDate,
-            DateTime activeStartTime, DateTime? activeEndTime, SqlServerJobSubDayFrequencyTypes? subDayIntervalType, int? subDayInterval,
+            DateTime activeStartTime, DateTime? activeEndTime, SqlServerJobSubDayFrequencyTypes subDayIntervalType, int? subDayInterval,
             int? freqRelativeInterval, int? freqRecurrenceFactor)
         {
-            if (subDayIntervalType != SqlServerJobSubDayFrequencyTypes.SpecifiedTime)
-            {
-                throw new ArgumentOutOfRangeException(nameof(freqType), freqType, "SqlServerJobSubDayFrequencyTypes Not Supported");
-            }
-
             var schedule = DkronScheduleHelper.GetSchedule(freqType, freqInterval, startDate, activeStartTime, activeEndTime,
                 subDayIntervalType, subDayInterval, freqRelativeInterval, freqRecurrenceFactor);
 

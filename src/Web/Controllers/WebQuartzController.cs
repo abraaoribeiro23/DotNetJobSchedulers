@@ -1,4 +1,4 @@
-using Infrastructure.Quartz.Extensions;
+using Application.Quartz;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.Sqlite;
 using Quartz;
@@ -7,12 +7,12 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class QuartzController : ControllerBase
+    public class WebQuartzController : ControllerBase
     {
-        private readonly ILogger<QuartzController> _logger;
+        private readonly ILogger<WebQuartzController> _logger;
         private readonly ISchedulerFactory _schedulerFactory;
 
-        public QuartzController(ILogger<QuartzController> logger, ISchedulerFactory schedulerFactory)
+        public WebQuartzController(ILogger<WebQuartzController> logger, ISchedulerFactory schedulerFactory)
         {
             _logger = logger;
             _schedulerFactory = schedulerFactory;
@@ -45,21 +45,13 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("add-repeat")]
-        public async Task<IActionResult> AddRepeatScheduleJob(string jobName, double seconds)
-        {
-            _logger.LogInformation("Add AddRepeatScheduleJob");
-            var scheduler = await _schedulerFactory.GetScheduler();
-            await scheduler.AddRepeatScheduleJob(jobName, TimeSpan.FromSeconds(seconds));
-            return Ok();
-        }
-
         [HttpPost("add-simple")]
-        public async Task<IActionResult> AddSingleScheduleJob(string jobName, DateTime startAt, string command)
+        public async Task<IActionResult> AddSingleScheduleJob()
         {
             _logger.LogInformation("Add AddSingleScheduleJob");
             var scheduler = await _schedulerFactory.GetScheduler();
-            await scheduler.AddSingleScheduleJob(jobName, startAt, command);
+            var jobName = Guid.NewGuid().ToString();
+            await scheduler.AddSingleScheduleJob(jobName);
             return Ok();
         }
     }

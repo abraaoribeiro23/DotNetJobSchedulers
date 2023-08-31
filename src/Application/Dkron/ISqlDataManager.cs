@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Dkron.Common.Enums.Legacy;
 using Infrastructure.Dkron.Contracts.Base;
 
-namespace Application;
+namespace Application.Dkron;
 
 public interface ISqlDataManager
 {

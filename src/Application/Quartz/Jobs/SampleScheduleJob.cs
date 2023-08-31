@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Quartz;
 
-namespace Infrastructure.Quartz.Jobs;
+namespace Application.Quartz.Jobs;
 
 public class SampleScheduleJob : IJob
 {

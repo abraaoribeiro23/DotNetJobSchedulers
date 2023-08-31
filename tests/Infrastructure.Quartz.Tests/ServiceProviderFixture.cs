@@ -1,9 +1,7 @@
-﻿using Application;
-using Infrastructure.Dkron;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Infrastructure.Tests.SqlDataManagerTests;
+namespace Infrastructure.Quartz.Tests;
 
 public class ServiceProviderFixture
 {
@@ -15,10 +13,7 @@ public class ServiceProviderFixture
         //    .AddJsonFile("appsettings.test.json")
         //    .Build();
 
-        services.AddScoped<IDkronService, DkronService>();
-        services.AddHttpClient<IDkronService, DkronService>(c => c.BaseAddress = new Uri("http://localhost:8080/"));
-
-        services.AddScoped<ISqlDataManager, SqlDataManager>();
+        services.AddQuartzService();
 
         services.AddLogging(builder => builder.AddSerilog(dispose: true));
 

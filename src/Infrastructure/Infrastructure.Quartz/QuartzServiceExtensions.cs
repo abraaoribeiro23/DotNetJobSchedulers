@@ -3,9 +3,9 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
-namespace Infrastructure.Quartz.Extensions;
+namespace Infrastructure.Quartz;
 
-public static class QuartzExtensions
+public static class QuartzServiceExtensions
 {
     public static void AddQuartzService(this IServiceCollection services)
     {
