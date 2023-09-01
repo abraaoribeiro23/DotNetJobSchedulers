@@ -20,7 +20,6 @@ namespace WebApi.Controllers
         [HttpPost("add-simple")]
         public async Task<IActionResult> AddSingleScheduleJob([FromBody] DkronJobPayload dto)
         {
-            _logger.LogInformation("DkronController::AddSingleScheduleJob([...])");
             var result = await _dkronService.CreateJob(dto);
             return Ok(result);
         }

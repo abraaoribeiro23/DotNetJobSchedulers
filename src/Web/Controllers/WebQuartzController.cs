@@ -21,8 +21,6 @@ namespace WebApi.Controllers
         [HttpGet("get")]
         public async Task<IActionResult> Get()
         {
-            _logger.LogInformation("Get Jobs");
-
             await using var connection = new SqliteConnection("Data Source=test.db");
             await connection.OpenAsync();
 
@@ -48,7 +46,6 @@ namespace WebApi.Controllers
         [HttpPost("add-simple")]
         public async Task<IActionResult> AddSingleScheduleJob()
         {
-            _logger.LogInformation("Add AddSingleScheduleJob");
             var scheduler = await _schedulerFactory.GetScheduler();
             var jobName = Guid.NewGuid().ToString();
             await scheduler.AddSingleScheduleJob(jobName);

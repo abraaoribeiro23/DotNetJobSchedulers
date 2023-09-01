@@ -1,4 +1,5 @@
-﻿using Infrastructure.Dkron.Common.Enums.Legacy;
+﻿using Application.Common;
+using Infrastructure.Dkron.Common.Enums.Legacy;
 
 namespace Application.Dkron;
 
@@ -21,6 +22,7 @@ public static class DkronScheduleHelper
         //@manually              | Never runs                                 | N/A
 
         string result;
+
         var subDaySchedule = GetSubDayInterval(subDayIntervalType, subDayInterval, activeStartTime, activeEndTime);
         switch (freqType)
         {

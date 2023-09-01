@@ -1,4 +1,4 @@
-﻿namespace Application.Dkron;
+﻿namespace Application.Common;
 
 public static class StringHelper
 {

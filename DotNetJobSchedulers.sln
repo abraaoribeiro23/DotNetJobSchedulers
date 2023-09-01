@@ -6,6 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15FA1BAA-CCCD-498D-A4F8-5A6ECA634D47}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		docker\docker-compose.yml = docker\docker-compose.yml
+		docker\env.txt = docker\env.txt
 		README.md = README.md
 	EndProjectSection
 EndProject

@@ -1,4 +1,5 @@
-﻿using Application.Dkron;
+﻿using Application.Common.Interfaces;
+using Application.Dkron;
 using Infrastructure.Dkron;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -18,7 +19,7 @@ public class ServiceProviderFixture
         services.AddScoped<IDkronService, DkronService>();
         services.AddHttpClient<IDkronService, DkronService>(c => c.BaseAddress = new Uri("http://localhost:8080/"));
 
-        services.AddScoped<ISqlDataManager, SqlDataManager>();
+        services.AddScoped<ISqlDataManager, DkronDataManager>();
 
         services.AddLogging(builder => builder.AddSerilog(dispose: true));
 

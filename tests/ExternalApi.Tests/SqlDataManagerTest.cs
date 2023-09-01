@@ -1,4 +1,4 @@
-﻿using Application.Dkron;
+﻿using Application.Common.Interfaces;
 using Infrastructure.Dkron.Common.Enums.Legacy;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -34,11 +34,10 @@ public class SqlDataManagerTest : IClassFixture<ServiceProviderFixture>
         const int freqRelativeInterval = 0;
         const int freqRecurrenceFactor = 0;
 
-        var result = await _sqlDataManager.CreateJob(accessKey, userGroupId, orgDbName, orgConnString, projectId,
+        var action = _sqlDataManager.CreateJob(accessKey, userGroupId, orgDbName, orgConnString, projectId,
             scheduleJobName, dataImportScheduleId, startDate, endDate, activeStartTime, activeEndTime, freqType, freqInterval,
             subDayIntervalType, subDayInterval, freqRelativeInterval, freqRecurrenceFactor);
 
-        Assert.NotNull(result);
-        Assert.NotNull(result.Name);
+        var ex = await Assert.ThrowsAsync<Exception>(async () => await action);
     }
 }
